@@ -1,19 +1,43 @@
 import React from "react";
 import Head from "next/head";
-import { AppBar, Container, Toolbar, Typography } from "@material-ui/core";
+import NextLink from "next/link";
+import {
+  AppBar,
+  Container,
+  Link,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
+import useStyles from "../utils/styles";
 
-export default function Layout({ children }) {
+export default function Layout({ title, description, children }) {
+  const classes = useStyles();
   return (
     <div>
       <Head>
-        <title>Next Amazona</title>
+        <title>{title ? `${title} - Next Amazona` : `Next Amazona`}</title>
+        {description && <meta name="description" content={description}></meta>}
       </Head>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.navbar}>
         <Toolbar>
-          <Typography>amazona</Typography>
+          <NextLink href="/" passHref>
+            <Typography className={classes.brand}>amazona</Typography>
+          </NextLink>
+          <div className={classes.grow}></div>
+          <div>
+            <NextLink href="/cart" passHref>
+              Cart
+            </NextLink>
+            <NextLink href="/cart" passHref>
+              Login
+            </NextLink>
+          </div>
         </Toolbar>
       </AppBar>
-      <Container>{children}</Container>
+      <Container className={classes.main}>{children}</Container>
+      <footer className={classes.footer}>
+        <Typography>All rights reserved. Next Amazona</Typography>
+      </footer>
     </div>
   );
 }
