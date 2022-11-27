@@ -27,7 +27,7 @@ export default function ProductScreen() {
     <Layout title={product.name} description={product.description}>
       <div className={classes.section}>
         <NextLink href="/" passHref>
-          <Typography>back to products</Typography>
+          <Typography color="primary">back to products</Typography>
         </NextLink>
       </div>
       <Grid container spacing={1}>
@@ -43,7 +43,9 @@ export default function ProductScreen() {
         <Grid item md={3} xs={12}>
           <List>
             <ListItem>
-              <Typography component="h1">{product.name}</Typography>
+              <Typography component="h1" variant="h1">
+                {product.name}
+              </Typography>
             </ListItem>
             <ListItem>
               <Typography>Category: {product.category}</Typography>
