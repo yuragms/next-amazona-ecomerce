@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
 import {
@@ -18,8 +18,16 @@ import { Store } from "../utils/store";
 import Cookies from "js-cookie";
 
 export default function Layout({ title, description, children }) {
+  const [cartItemsCount, setCartItemsCount] = useState(false);
   const { state, dispatch } = useContext(Store);
   const { darkMode, cart } = state;
+
+  useEffect(() => {
+    cart.cartItems.length > 0
+      ? setCartItemsCount(cart.cartItems.length)
+      : setCartItemsCount(false);
+  }, [cart]);
+
   const theme = createTheme({
     typography: {
       h1: {
@@ -73,15 +81,22 @@ export default function Layout({ title, description, children }) {
                 onChange={darkModeChangeHandler}
               ></Switch>
               <NextLink href="/cart" passHref>
-                {cart.cartItems.length > 0 ? (
+                {/* {cart.cartItems.length > 0 ? (
                   <Badge color="secondary" badgeContent={cart.cartItems.length}>
+                    Cart
+                  </Badge>
+                ) : (
+                  "Cart"
+                )} */}
+                {cartItemsCount ? (
+                  <Badge color="secondary" badgeContent={cartItemsCount}>
                     Cart
                   </Badge>
                 ) : (
                   "Cart"
                 )}
               </NextLink>
-              <NextLink href="/cart" passHref>
+              <NextLink href="/login" passHref>
                 Login
               </NextLink>
             </div>
