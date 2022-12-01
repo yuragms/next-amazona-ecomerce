@@ -19,14 +19,20 @@ import Cookies from "js-cookie";
 
 export default function Layout({ title, description, children }) {
   const [cartItemsCount, setCartItemsCount] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const { state, dispatch } = useContext(Store);
   const { darkMode, cart } = state;
 
+  //fixin React Hydration Error
   useEffect(() => {
     cart.cartItems.length > 0
       ? setCartItemsCount(cart.cartItems.length)
       : setCartItemsCount(false);
   }, [cart]);
+
+  useEffect(() => {
+    darkMode ? setIsDarkMode(true) : setIsDarkMode(false);
+  }, [darkMode]);
 
   const theme = createTheme({
     typography: {
@@ -45,7 +51,7 @@ export default function Layout({ title, description, children }) {
       },
     },
     palette: {
-      type: darkMode ? "dark" : "light",
+      type: isDarkMode ? "dark" : "light",
       primary: {
         main: "#f0c000",
       },
@@ -77,7 +83,7 @@ export default function Layout({ title, description, children }) {
             <div className={classes.grow}></div>
             <div>
               <Switch
-                checked={darkMode}
+                checked={isDarkMode}
                 onChange={darkModeChangeHandler}
               ></Switch>
               <NextLink href="/cart" passHref>
@@ -89,7 +95,11 @@ export default function Layout({ title, description, children }) {
                   "Cart"
                 )} */}
                 {cartItemsCount ? (
-                  <Badge color="secondary" badgeContent={cartItemsCount}>
+                  <Badge
+                    color="secondary"
+                    badgeContent={cartItemsCount}
+                    overlap="rectangular"
+                  >
                     Cart
                   </Badge>
                 ) : (
