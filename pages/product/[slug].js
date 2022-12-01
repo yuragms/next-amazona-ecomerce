@@ -1,6 +1,6 @@
 // import { useRouter } from "next/router";
 // import data from "../../utils/data";
-import React, { useContext } from "react";
+import React, { use, useContext } from "react";
 import Layout from "../../components/Layout";
 import NextLink from "next/link";
 import {
@@ -18,8 +18,10 @@ import db from "../../utils/db";
 import Product from "../../models/Product";
 import { Store } from "../../utils/store";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function ProductScreen(props) {
+  const router = useRouter();
   const { dispatch } = useContext(Store);
   const { product } = props;
   const classes = useStyles();
@@ -40,6 +42,7 @@ export default function ProductScreen(props) {
       type: "CART_ADD_ITEM",
       payload: { ...product, quantity: 1 },
     });
+    router.push("/cart");
   };
 
   return (
@@ -57,6 +60,7 @@ export default function ProductScreen(props) {
             width={640}
             height={640}
             layout="responsive"
+            priority="true"
           ></Image>
         </Grid>
         <Grid item md={3} xs={12}>

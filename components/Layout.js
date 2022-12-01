@@ -30,6 +30,7 @@ export default function Layout({ title, description, children }) {
       : setCartItemsCount(false);
   }, [cart]);
 
+  //fixin React Hydration Error
   useEffect(() => {
     darkMode ? setIsDarkMode(true) : setIsDarkMode(false);
   }, [darkMode]);
