@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   Grid,
+  Link,
   List,
   ListItem,
   MenuItem,
@@ -34,7 +35,7 @@ function CartScreen() {
   //   }, [cartItems]);
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
-    if (data.countInStock <= 0) {
+    if (data.countInStock < quantity) {
       window.alert("Sorry. Product is out of stock");
       return;
     }
@@ -43,6 +44,9 @@ function CartScreen() {
       payload: { ...item, quantity },
     });
   };
+  const removeItemHandler = (item) => {
+    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
+  };
   return (
     <Layout title="Shopping Cart">
       <Typography component="h1" variant="h1">
@@ -50,7 +54,10 @@ function CartScreen() {
       </Typography>
       {cartItems.length === 0 ? (
         <div>
-          Cart is empty. <NextLink href="/">Go shopping</NextLink>
+          Cart is empty.{" "}
+          <NextLink href="/" passHref>
+            Go shopping
+          </NextLink>
         </div>
       ) : (
         <Grid container spacing={1}>
@@ -100,7 +107,11 @@ function CartScreen() {
                       </TableCell>
                       <TableCell align="right">${item.price}</TableCell>
                       <TableCell align="right">
-                        <Button variant="contained" color="secondary">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={() => removeItemHandler(item)}
+                        >
                           x
                         </Button>
                       </TableCell>
