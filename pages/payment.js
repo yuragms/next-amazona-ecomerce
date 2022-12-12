@@ -31,8 +31,11 @@ export default function Payment() {
     if (!shippingAddress.address) {
       router.push("/shipping");
     } else {
+      // const aaa = JSON.parse(Cookies.get("paymentMethod"));
+      // console.log(aaa);
+      console.log(paymentMethod);
       // delete del first and end element fron stroke .slice(1, -1) it is ""
-      setPaymentMethod(Cookies.get("paymentMethod").slice(1, -1) || "");
+      setPaymentMethod(Cookies.get("paymentMethod") || "");
     }
   }, []);
 
@@ -44,7 +47,7 @@ export default function Payment() {
     } else {
       dispatch({ type: "SAVE_PAYMENT_METHOD", payload: paymentMethod });
       // Cookies.set("paymentMethod", JSON.stringify(paymentMethod));
-      Cookies.set("paymentMethod", JSON.stringify(paymentMethod));
+      Cookies.set("paymentMethod", paymentMethod);
       router.push("/placeorder");
     }
   };
