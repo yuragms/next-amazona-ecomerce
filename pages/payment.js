@@ -31,8 +31,8 @@ export default function Payment() {
     if (!shippingAddress.address) {
       router.push("/shipping");
     } else {
-      setPaymentMethod(Cookies.get("paymentMethod") || "");
-      console.log(Cookies.get("paymentMethod"));
+      // delete del first and end element fron stroke .slice(1, -1) it is ""
+      setPaymentMethod(Cookies.get("paymentMethod").slice(1, -1) || "");
     }
   }, []);
 
@@ -43,12 +43,13 @@ export default function Payment() {
       enqueueSnackbar("Payment method is required", { variant: "error" });
     } else {
       dispatch({ type: "SAVE_PAYMENT_METHOD", payload: paymentMethod });
-      Cookies.set("paymentMethod", JSON.stringify(paymentMethod));
+      // Cookies.set("paymentMethod", JSON.stringify(paymentMethod));
+      Cookies.set("paymentMethod", paymentMethod);
       router.push("/placeorder");
     }
   };
   return (
-    <Layout title="Payment Methot">
+    <Layout title="Payment Method">
       <CheckoutWizard activeStep={2}></CheckoutWizard>
       <form className={classes.form} onSubmit={submitHandler}>
         <Typography component="h1" variant="h1">
