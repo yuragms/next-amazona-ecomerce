@@ -1,12 +1,10 @@
 import {
   Button,
   Card,
+  CircularProgress,
   Grid,
-  Link,
   List,
   ListItem,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -26,6 +24,8 @@ import { useRouter } from "next/router";
 import useStyles from "../utils/styles";
 import CheckoutWizard from "../components/CheckoutWizard";
 import { useSnackbar } from "notistack";
+import Cookies from "js-cookie";
+import { getError } from "../utils/error";
 
 function PlaceOrder() {
   const classes = useStyles();
@@ -35,6 +35,8 @@ function PlaceOrder() {
     userInfo,
     cart: { cartItems, shippingAddress, paymentMethod },
   } = state;
+  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false);
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; //123.45 => 123.46
 
@@ -49,10 +51,11 @@ function PlaceOrder() {
     if (!paymentMethod) {
       router.push("/payment");
     }
+    if (cartItems.length === 0) {
+      router.push("/cart");
+    }
   }, []);
 
-  const { closeSnackbar, enqueueSnackbar } = useSnackbar();
-  const [loading, setLoading] = useState(false);
   const placeOrderHandler = async () => {
     closeSnackbar();
     try {
@@ -60,7 +63,7 @@ function PlaceOrder() {
       const { data } = await axios.post(
         "/api/orders",
         {
-          orderOItems: cartItems,
+          orderItems: cartItems,
           shippingAddress,
           paymentMethod,
           itemsPrice,
@@ -68,8 +71,16 @@ function PlaceOrder() {
           taxPrice,
           totalPrice,
         },
-        { headers: { autorization: `Bearer ${userInfo.token}` } }
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
       );
+      dispatch({ type: "CART_CLEAR" });
+      Cookies.remove("cartItems");
+      setLoading(false);
+      router.push(`/order/${data._id}`);
     } catch (err) {
       setLoading(false);
       enqueueSnackbar(getError(err), { variant: "error" });
@@ -219,6 +230,11 @@ function PlaceOrder() {
                   Place Order
                 </Button>
               </ListItem>
+              {loading && (
+                <ListItem>
+                  <CircularProgress />
+                </ListItem>
+              )}
             </List>
           </Card>
         </Grid>
