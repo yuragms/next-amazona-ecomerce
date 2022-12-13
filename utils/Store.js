@@ -58,6 +58,8 @@ function reducer(state, action) {
         ...state,
         cart: { ...state.cart, paymentMethod: action.payload },
       };
+    case "CART_CLEAR":
+      return { ...state, cart: { ...state.cart, crtItems: [] } };
     case "USER_LOGIN":
       return {
         ...state,
@@ -67,7 +69,7 @@ function reducer(state, action) {
       return {
         ...state,
         userInfo: null,
-        cart: { cartItems: [] },
+        cart: { cartItems: [], shippingAddress: {}, paymentMethod: "" },
       };
     default:
       return state;
