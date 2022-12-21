@@ -103,6 +103,7 @@ function Order({ params }) {
         });
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
       };
+      loadPaypalScript();
     }
   }, [order]);
 
@@ -138,6 +139,10 @@ function Order({ params }) {
         enqueueSnackbar(getError(err), { variant: "error" });
       }
     });
+  }
+
+  function onError(err) {
+    enqueueSnackbar(getError(err), { variant: "error" });
   }
 
   return (
@@ -294,11 +299,13 @@ function Order({ params }) {
                     {isPending ? (
                       <CircularProgress />
                     ) : (
-                      <PayPalButtons
-                        createOrder={createOrder}
-                        onApprove={onApprove}
-                        onError={onError}
-                      ></PayPalButtons>
+                      <div className={classes.fullWidth}>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        ></PayPalButtons>
+                      </div>
                     )}
                   </ListItem>
                 )}
