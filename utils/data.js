@@ -22,7 +22,7 @@ const data = {
       image: "/images/shirt1.jpg",
       isFeatured: true,
       featuredImage: "/images/banner1.jpg",
-      price: 70,
+      price: 0.01,
       brand: "Nike",
       rating: 4.5,
       numReviews: 10,
