@@ -11,7 +11,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TableContainer,
   Typography,
+  Button,
 } from "@material-ui/core";
 import { getError } from "../utils/error";
 import dynamic from "next/dynamic";
@@ -41,7 +43,7 @@ function OrderHistory() {
   const classes = useStyles();
   const { userInfo } = state;
 
-  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
     orders: [],
     error: "",
@@ -72,12 +74,12 @@ function OrderHistory() {
           <Card className={classes.section}>
             <List>
               <NextLink href="/profile" passHref>
-                <ListItem button component="a">
+                <ListItem button>
                   <ListItemText primary="User Prifile"></ListItemText>
                 </ListItem>
               </NextLink>
               <NextLink href="/order-history" passHref>
-                <ListItem selected button component="a">
+                <ListItem selected button>
                   <ListItemText primary="Order History"></ListItemText>
                 </ListItem>
               </NextLink>
