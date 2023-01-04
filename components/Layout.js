@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import Head from "next/head";
-import NextLink from "next/link";
+import React, { useContext, useEffect, useState } from 'react';
+import Head from 'next/head';
+import NextLink from 'next/link';
 import {
   AppBar,
   Badge,
@@ -14,12 +14,12 @@ import {
   ThemeProvider,
   Toolbar,
   Typography,
-} from "@material-ui/core";
-import useStyles from "../utils/styles";
-import { Store } from "../utils/store";
-import Cookies from "js-cookie";
-import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
+} from '@material-ui/core';
+import useStyles from '../utils/styles';
+import { Store } from '../utils/store';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 
 function Layout({ title, description, children }) {
   const router = useRouter();
@@ -43,35 +43,35 @@ function Layout({ title, description, children }) {
   const theme = createTheme({
     typography: {
       h1: {
-        fontSize: "1.6reem",
+        fontSize: '1.6reem',
         fontWeight: 400,
-        margin: "1rem 0",
+        margin: '1rem 0',
       },
       h2: {
-        fontSize: "1.4reem",
+        fontSize: '1.4reem',
         fontWeight: 400,
-        margin: "1rem 0",
+        margin: '1rem 0',
       },
       body1: {
-        fontWeight: "normal",
+        fontWeight: 'normal',
       },
     },
     palette: {
-      type: isDarkMode ? "dark" : "light",
+      type: isDarkMode ? 'dark' : 'light',
       primary: {
-        main: "#f0c000",
+        main: '#f0c000',
       },
       secondary: {
-        main: "#208080",
+        main: '#208080',
       },
     },
   });
   const classes = useStyles();
 
   const darkModeChangeHandler = () => {
-    dispatch({ type: darkMode ? "DARK_MODE_OFF" : "DARK_MODE_ON" });
+    dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' });
     const newDarkMode = !darkMode;
-    Cookies.set("darkMode", newDarkMode ? "ON" : "OFF");
+    Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
   };
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -86,10 +86,10 @@ function Layout({ title, description, children }) {
   };
   const logoutClickHandler = () => {
     setAnchorEl(null);
-    dispatch({ type: "USER_LOGOUT" });
-    Cookies.remove("userInfo");
-    Cookies.remove("cartItems");
-    router.push("/");
+    dispatch({ type: 'USER_LOGOUT' });
+    Cookies.remove('userInfo');
+    Cookies.remove('cartItems');
+    router.push('/');
   };
   return (
     <div>
@@ -127,7 +127,7 @@ function Layout({ title, description, children }) {
                     Cart
                   </Badge>
                 ) : (
-                  "Cart"
+                  'Cart'
                 )}
               </NextLink>
               {userInfo ? (
@@ -148,17 +148,26 @@ function Layout({ title, description, children }) {
                     onClose={loginMenuCloseHandler}
                   >
                     <MenuItem
-                      onClick={(e) => loginMenuCloseHandler(e, "/profile")}
+                      onClick={(e) => loginMenuCloseHandler(e, '/profile')}
                     >
                       Profile
                     </MenuItem>
                     <MenuItem
                       onClick={(e) =>
-                        loginMenuCloseHandler(e, "/order-history")
+                        loginMenuCloseHandler(e, '/order-history')
                       }
                     >
                       Order History
                     </MenuItem>
+                    {userInfo.isAdmin && (
+                      <MenuItem
+                        onClick={(e) =>
+                          loginMenuCloseHandler(e, '/admin/dashboard')
+                        }
+                      >
+                        Admin Dashboard
+                      </MenuItem>
+                    )}
                     <MenuItem onClick={logoutClickHandler}>Logout</MenuItem>
                   </Menu>
                 </>
