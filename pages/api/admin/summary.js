@@ -27,6 +27,7 @@ handler.get(async (req, res) => {
   ]);
   const ordersPrice =
     ordersPriceGroup.length > 0 ? ordersPriceGroup[0].sales : 0;
+  console.log(ordersPriceGroup);
   const salesData = await Order.aggregate([
     {
       $group: {
