@@ -137,7 +137,7 @@ function AdminDashboard() {
                       <Card raised>
                         <CardContent>
                           <Typography variant="h1">
-                            ${summary.productCount}
+                            ${summary.productsCount}
                           </Typography>
                           <Typography>Products</Typography>
                         </CardContent>
