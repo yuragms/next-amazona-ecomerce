@@ -7,12 +7,6 @@ import {
   ListItem,
   ListItemText,
   CardActions,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableContainer,
   Typography,
   Button,
   CardContent,
@@ -77,12 +71,12 @@ function AdminDashboard() {
           <Card className={classes.section}>
             <List>
               <NextLink href="/admin/dashboard" passHref>
-                <ListItem button>
+                <ListItem button selected>
                   <ListItemText primary="Admin Dashboard"></ListItemText>
                 </ListItem>
               </NextLink>
               <NextLink href="/admin/orders" passHref>
-                <ListItem selected button>
+                <ListItem button>
                   <ListItemText primary="Ordes"></ListItemText>
                 </ListItem>
               </NextLink>

@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 const signToken = (user) => {
   return jwt.sign(
@@ -9,7 +9,7 @@ const signToken = (user) => {
       isAdmin: user.isAdmin,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "30d" }
+    { expiresIn: '30d' }
   );
 };
 
@@ -19,19 +19,27 @@ const isAuth = async (req, res, next) => {
     console.log(authorization);
     // Bearer xxx => xxx
     const token = authorization.slice(7, authorization.length);
-    console.log("token");
+    console.log('token');
     console.log(token);
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
       if (err) {
-        res.status(401).send({ message: "Token is not valid" });
+        res.status(401).send({ message: 'Token is not valid' });
       } else {
         req.user = decode;
         next();
       }
     });
   } else {
-    res.status(401).send({ message: "Token is not suppiled" });
+    res.status(401).send({ message: 'Token is not suppiled' });
   }
 };
 
-export { signToken, isAuth };
+const isAdmin = async (req, res, next) => {
+  if (req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401).send({ message: 'User is not Admin' });
+  }
+};
+
+export { signToken, isAuth, isAdmin };
