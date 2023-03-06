@@ -23,6 +23,7 @@ import Layout from '../../components/Layout';
 import { Store } from '../../utils/store';
 import useStyles from '../../utils/styles';
 import NextLink from 'next/link';
+import { useSnackbar } from 'notistack';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -32,6 +33,13 @@ function reducer(state, action) {
       return { ...state, loading: false, products: action.payload, error: '' };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
+
+    case 'CREATE_REQUEST':
+      return { ...state, loadingCreate: true };
+    case 'CREATE_SUCCESS':
+      return { ...state, loadingCreate: false };
+    case 'CREATE_FAIL':
+      return { ...state, loadingCreate: false };
     default:
       state;
   }
@@ -43,11 +51,14 @@ function AdminDashboard() {
   const classes = useStyles();
   const { userInfo } = state;
 
-  const [{ loading, error, products }, dispatch] = useReducer(reducer, {
-    loading: true,
-    products: [],
-    error: '',
-  });
+  const [{ loading, error, products, loadingCreate }, dispatch] = useReducer(
+    reducer,
+    {
+      loading: true,
+      products: [],
+      error: '',
+    }
+  );
   useEffect(() => {
     if (!userInfo) {
       router.push('/login');
@@ -67,6 +78,30 @@ function AdminDashboard() {
     };
     fetchData();
   }, []);
+
+  const { enqueueSnackbar } = useSnackbar();
+  const createHandler = async () => {
+    if (!window.confirm('Are you sure')) {
+      return;
+    }
+    try {
+      dispatch({ type: 'CREATE_REQUEST' });
+      console.log('CREATE_REQUEST');
+      const { data } = await axios.post(
+        `/api/admin/products`,
+        {},
+        { headers: { authorization: `Bearer ${userInfo.token}` } }
+      );
+      // console.log('CREATE_REQUEST');
+      dispatch({ type: 'CREATE_SUCCESS' });
+      enqueueSnackbar('Product created successfully', { variant: 'success' });
+      router.push(`/admin/product/${data.product._id}`);
+    } catch (err) {
+      dispatch({ type: 'CREATE_FAIL' });
+      enqueueSnackbar(getError(err), { variant: 'error' });
+    }
+  };
+
   return (
     <Layout title={'Product History'}>
       <Grid container spacing={1}>
@@ -95,9 +130,23 @@ function AdminDashboard() {
           <Card className={classes.section}>
             <List>
               <ListItem>
-                <Typography component="h1" variant="h1">
-                  Products
-                </Typography>
+                <Grid container alignItems="center">
+                  <Grid item xs={6}>
+                    <Typography component="h1" variant="h1">
+                      Products
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6} align="right">
+                    <Button
+                      onClick={createHandler}
+                      color="primary"
+                      variant="contained"
+                    >
+                      Create
+                    </Button>
+                    {loadingCreate && <CircularProgress />}
+                  </Grid>
+                </Grid>
               </ListItem>
               <ListItem>
                 {loading ? (
