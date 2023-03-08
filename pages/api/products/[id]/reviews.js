@@ -35,11 +35,18 @@ handler.use(isAuth).post(async (req, res) => {
           },
         }
       );
+      const updatedProduct = await Product.findById(req.query.id);
+      updatedProduct.numReviews = updatedProduct.reviews.length;
+      updatedProduct.rating =
+        updatedProduct.reviews.reduce((a, c) => c.rating + a, 0) /
+        updatedProduct.reviews.length;
+      await updatedProduct.save();
+
       await db.disconnect();
       return res.send({ message: 'Review updated' });
     } else {
       const review = {
-        user: mongoose.Schema.Types.ObjectId(req.user._id),
+        user: mongoose.Types.ObjectId(req.user._id),
         name: req.user.name,
         rating: Number(req.body.rating),
         comment: req.body.comment,
@@ -58,3 +65,5 @@ handler.use(isAuth).post(async (req, res) => {
     res.status(404).send({ message: 'Product Not Found' });
   }
 });
+
+export default handler;

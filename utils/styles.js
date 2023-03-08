@@ -1,48 +1,57 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   navbar: {
-    backgroundColor: "#203040",
-    "& a": {
-      color: "#ffffff",
+    backgroundColor: '#203040',
+    '& a': {
+      color: '#ffffff',
       marginLeft: 10,
     },
   },
   brand: {
-    fontWeight: "bold",
-    fontSize: "1.5rem",
+    fontWeight: 'bold',
+    fontSize: '1.5rem',
   },
   grow: {
     flexGrow: 1,
   },
   main: {
-    minHeight: "80vh",
+    minHeight: '80vh',
   },
   footer: {
     marginTop: 10,
-    textAlign: "center",
+    textAlign: 'center',
   },
   section: {
     marginTop: 10,
     marginBottom: 10,
   },
   form: {
-    width: "100%",
+    width: '100%',
     maxWidth: 800,
-    margin: "0 auto",
+    margin: '0 auto',
   },
   navbarButton: {
-    color: "#ffffff",
-    textTransform: "initial",
+    color: '#ffffff',
+    textTransform: 'initial',
   },
   transparentBackground: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   error: {
-    color: "#f04040",
+    color: '#f04040',
   },
   fullWidth: {
-    width: "100%",
+    width: '100%',
+  },
+  reviewForm: {
+    maxWidth: 800,
+    width: '100%',
+  },
+  reviewItem: {
+    marginRight: '1rem',
+    borderRight: '1px #808080 solid',
+    paddingRight: '1rem',
   },
 });
 

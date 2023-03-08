@@ -7,16 +7,17 @@ import {
   CardContent,
   CardActions,
   Button,
-} from "@material-ui/core";
-import axios from "axios";
-import NextLink from "next/link";
-import { useRouter } from "next/router";
-import Layout from "../components/Layout";
-import Product from "../models/Product";
+} from '@material-ui/core';
+import axios from 'axios';
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import Layout from '../components/Layout';
+import Product from '../models/Product';
 // import data from "../utils/data";
-import db from "../utils/db";
-import { useContext } from "react";
-import { Store } from "../utils/store";
+import db from '../utils/db';
+import { useContext } from 'react';
+import { Store } from '../utils/store';
+import { Rating } from '@material-ui/lab';
 
 export default function Home(props) {
   const router = useRouter();
@@ -29,14 +30,14 @@ export default function Home(props) {
     const { data } = await axios.get(`/api/products/${product._id}`);
 
     if (data.countInStock < quantity) {
-      window.alert("Sorry. Product is out of stock");
+      window.alert('Sorry. Product is out of stock');
       return;
     }
     dispatch({
-      type: "CART_ADD_ITEM",
+      type: 'CART_ADD_ITEM',
       payload: { ...product, quantity },
     });
-    router.push("/cart");
+    router.push('/cart');
   };
   return (
     <Layout>
@@ -55,6 +56,7 @@ export default function Home(props) {
                     ></CardMedia>
                     <CardContent>
                       <Typography>{product.name}</Typography>
+                      <Rating value={product.rating} readOnly></Rating>
                     </CardContent>
                   </CardActionArea>
                 </NextLink>
@@ -79,7 +81,7 @@ export default function Home(props) {
 
 export async function getServerSideProps() {
   await db.connect();
-  const products = await Product.find({}).lean();
+  const products = await Product.find({}, '-reviews').lean();
   await db.disconnect();
   return {
     props: {
