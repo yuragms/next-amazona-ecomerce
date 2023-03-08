@@ -1,24 +1,24 @@
 // import { useRouter } from "next/router";
 // import data from "../../utils/data";
-import React, { use, useContext } from "react";
-import Layout from "../../components/Layout";
-import NextLink from "next/link";
+import React, { use, useContext } from 'react';
+import Layout from '../../components/Layout';
+import NextLink from 'next/link';
 import {
   Button,
   Card,
   Grid,
-  Link,
   List,
   ListItem,
   Typography,
-} from "@material-ui/core";
-import useStyles from "../../utils/styles";
-import Image from "next/image";
-import db from "../../utils/db";
-import Product from "../../models/Product";
-import { Store } from "../../utils/store";
-import axios from "axios";
-import { useRouter } from "next/router";
+} from '@material-ui/core';
+import Rating from '@material-ui/lab/Rating';
+import useStyles from '../../utils/styles';
+import Image from 'next/image';
+import db from '../../utils/db';
+import Product from '../../models/Product';
+import { Store } from '../../utils/store';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export default function ProductScreen(props) {
   const router = useRouter();
@@ -38,14 +38,14 @@ export default function ProductScreen(props) {
     const { data } = await axios.get(`/api/products/${product._id}`);
 
     if (data.countInStock < quantity) {
-      window.alert("Sorry. Product is out of stock");
+      window.alert('Sorry. Product is out of stock');
       return;
     }
     dispatch({
-      type: "CART_ADD_ITEM",
+      type: 'CART_ADD_ITEM',
       payload: { ...product, quantity },
     });
-    router.push("/cart");
+    router.push('/cart');
   };
 
   return (
@@ -80,9 +80,10 @@ export default function ProductScreen(props) {
               <Typography>Brand: {product.brand}</Typography>
             </ListItem>
             <ListItem>
-              <Typography>
-                Rating: {product.rating} stars ({product.numReviews} reviews)
-              </Typography>
+              <Rating value={product.rating} readOnly></Rating>
+              <NextLink href="#reviews" passHref>
+                <Typography>({product.numReviews} reviews)</Typography>
+              </NextLink>
             </ListItem>
             <ListItem>
               <Typography>Description: {product.description}</Typography>
@@ -109,7 +110,7 @@ export default function ProductScreen(props) {
                   </Grid>
                   <Grid item xs={6}>
                     <Typography>
-                      ${product.countInStock > 0 ? "In stock" : "Unavailable"}
+                      ${product.countInStock > 0 ? 'In stock' : 'Unavailable'}
                     </Typography>
                   </Grid>
                 </Grid>
