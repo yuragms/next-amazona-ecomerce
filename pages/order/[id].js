@@ -220,7 +220,16 @@ function Order({ params }) {
                 <ListItem>
                   {shippingAddress.fullName}, {shippingAddress.address},{' '}
                   {shippingAddress.city}, {shippingAddress.postalCode},{' '}
-                  {shippingAddress.country}
+                  {shippingAddress.country}&nbsp;
+                  {shippingAddress.location && (
+                    <NextLink
+                      variant="button"
+                      target="_new"
+                      href={`https://maps.google.com?q=${shippingAddress.location.lat},${shippingAddress.location.lng}`}
+                    >
+                      SHOW ON MAP
+                    </NextLink>
+                  )}
                 </ListItem>
                 <ListItem>
                   Status:{''}
