@@ -26,7 +26,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SearchIcon from '@material-ui/icons/Search';
-import useStyles from '../utils/styles';
+import useStyles from '../utils/classes';
 import { Store } from '../utils/store';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';

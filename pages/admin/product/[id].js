@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import Layout from '../../../components/Layout';
 import { Store } from '../../../utils/store';
-import useStyles from '../../../utils/styles';
+import useStyles from '../../../utils/classes';
 import NextLink from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';

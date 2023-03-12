@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Store } from '../utils/store';
-import useStyles from '../utils/styles';
+import useStyles from '../utils/classes';
 import { CircularProgress } from '@material-ui/core';
 import {
   GoogleMap,

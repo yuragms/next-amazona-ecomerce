@@ -22,7 +22,7 @@ import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { Store } from '../../utils/store';
-import useStyles from '../../utils/styles';
+import useStyles from '../../utils/classes';
 import { getError } from '../../utils/error';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 

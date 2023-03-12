@@ -1,6 +1,60 @@
-import { makeStyles } from '@material-ui/core';
+const classes = {
+  //common
+  flex: {
+    display: 'flex',
+  },
+  hidden: {
+    display: 'none',
+  },
+  visiable: {
+    display: 'initial',
+  },
+  sort: {
+    marginRight: 1,
+  },
+  fullHeight: { height: '100vh' },
+  fullWidth: { width: '100%' },
+  error: {
+    color: '#f04040',
+  },
+  //layout
+  main: {
+    marginTop: 2,
+    minHeight: '80vh',
+  },
+  footer: {
+    marginTop: 1,
+    textAlign: 'center',
+  },
+  section: {
+    marginTop: 1,
+    marginBottom: 1,
+  },
+  //header
+  appbar: {
+    backgroundColor: '#203040',
+    '& a': {
+      color: '#ffffff',
+      marginLeft: 1,
+    },
+  },
+  toolbar: {
+    justifyContent: 'space-between',
+  },
+  brand: {
+    fontWeight: 'bold',
+    fontSize: '1.5rem',
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  navbarButton: {
+    color: '#ffffff',
+    textTransform: 'initial',
+  },
 
-const useStyles = makeStyles((theme) => ({
+  menuButton: { padding: 0 },
+
   navbar: {
     backgroundColor: '#203040',
     '& a': {
@@ -62,12 +116,7 @@ const useStyles = makeStyles((theme) => ({
   menuButton: { padding: 0 },
   mt1: { marginTop: '1rem' },
   // search
-  searchSection: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
-  },
+
   searchForm: {
     border: '1px solid #ffffff',
     backgroundColor: '#ffffff',
@@ -104,6 +153,6 @@ const useStyles = makeStyles((theme) => ({
       width: 250,
     },
   },
-}));
+};
 
-export default useStyles;
+export default classes;
