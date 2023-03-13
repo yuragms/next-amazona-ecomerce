@@ -11,17 +11,20 @@ import {
   CircularProgress,
   FormControlLabel,
   Checkbox,
-} from '@material-ui/core';
+  ListItemButton,
+} from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import Layout from '../../../components/Layout';
 import { Store } from '../../../utils/store';
-import useStyles from '../../../utils/classes';
+// import useStyles from '../../../utils/classes';
 import NextLink from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
 import { getError } from '../../../utils/error';
+import Form from '../../../components/Form';
+import classes from '../../../utils/classes';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -66,7 +69,7 @@ function ProductEdit({ params }) {
   } = useForm();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
-  const classes = useStyles();
+  // const classes = useStyles();
   const { userInfo } = state;
 
   useEffect(() => {
@@ -165,28 +168,28 @@ function ProductEdit({ params }) {
     <Layout title={`Edit Product ${productId}`}>
       <Grid container spacing={1}>
         <Grid item md={3} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <NextLink href="/admin/dashboard" passHref>
-                <ListItem button>
+                <ListItemButton>
                   <ListItemText primary="Admin Dashboard"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
               <NextLink href="/admin/orders" passHref>
-                <ListItem button>
+                <ListItemButton>
                   <ListItemText primary="Orders"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
               <NextLink href="/admin/products" passHref>
-                <ListItem button selected>
+                <ListItemButton selected>
                   <ListItemText primary="Products"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
             </List>
           </Card>
         </Grid>
         <Grid item md={9} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <ListItem>
                 <Typography component="h1" variant="h1">
@@ -195,15 +198,14 @@ function ProductEdit({ params }) {
               </ListItem>
               <ListItem>
                 {loading && <CircularProgress></CircularProgress>}
-                {error && (
-                  <Typography className={classes.error}>{error}</Typography>
-                )}
+                {error && <Typography sx={classes.error}>{error}</Typography>}
               </ListItem>
               <ListItem>
-                <form
+                {/* <form
                   onSubmit={handleSubmit(submitHandler)}
                   className={classes.form}
-                >
+                > */}
+                <Form onSubmit={handleSubmit(submitHandler)}>
                   <List>
                     <ListItem>
                       <Controller
@@ -450,7 +452,7 @@ function ProductEdit({ params }) {
                       {loadingUpdate && <CircularProgress />}
                     </ListItem>
                   </List>
-                </form>
+                </Form>
               </ListItem>
             </List>
           </Card>

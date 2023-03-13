@@ -5,6 +5,7 @@ import {
   Grid,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   Typography,
   Button,
@@ -14,14 +15,15 @@ import {
   TableRow,
   TableCell,
   TableBody,
-} from '@material-ui/core';
+} from '@mui/material';
 import { getError } from '../../utils/error';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useReducer } from 'react';
 import Layout from '../../components/Layout';
 import { Store } from '../../utils/store';
-import useStyles from '../../utils/styles';
+// import useStyles from '../../utils/styles';
+import classes from '../../utils/classes';
 import NextLink from 'next/link';
 import { useSnackbar } from 'notistack';
 
@@ -57,7 +59,7 @@ function reducer(state, action) {
 function AdminProducts() {
   const { state } = useContext(Store);
   const router = useRouter();
-  const classes = useStyles();
+  // const classes = useStyles();
   const { userInfo } = state;
 
   const [
@@ -143,30 +145,30 @@ function AdminProducts() {
           <Card className={classes.section}>
             <List>
               <NextLink href="/admin/dashboard" passHref>
-                <ListItem button>
+                <ListItemButton>
                   <ListItemText primary="Admin Dashboard"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
               <NextLink href="/admin/orders" passHref>
-                <ListItem button>
+                <ListItemButton>
                   <ListItemText primary="Orders"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
               <NextLink href="/admin/products" passHref>
-                <ListItem button selected>
+                <ListItemButton selected>
                   <ListItemText primary="Products"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
               <NextLink href="/admin/users" passHref>
-                <ListItem button>
+                <ListItemButton>
                   <ListItemText primary="Users"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
             </List>
           </Card>
         </Grid>
         <Grid item md={9} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <ListItem>
                 <Grid container alignItems="center">
@@ -192,7 +194,7 @@ function AdminProducts() {
                 {loading ? (
                   <CircularProgress />
                 ) : error ? (
-                  <Typography className={classes.error}>{error}</Typography>
+                  <Typography sx={classes.error}>{error}</Typography>
                 ) : (
                   <TableContainer>
                     <Table>
@@ -223,13 +225,18 @@ function AdminProducts() {
                                 href={`/admin/product/${product._id}`}
                                 passHref
                               >
-                                <Button size="small" variant="contained">
+                                <Button
+                                  size="small"
+                                  variant="contained"
+                                  color="secondary"
+                                >
                                   Edit
                                 </Button>
                               </NextLink>{' '}
                               <Button
                                 size="small"
                                 variant="contained"
+                                color="error"
                                 onClick={() => deleteHandler(product._id)}
                               >
                                 Delete

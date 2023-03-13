@@ -1,44 +1,73 @@
-import React, { useContext, useEffect, useState } from 'react';
 import Head from 'next/head';
-import NextLink from 'next/link';
-import {
-  AppBar,
-  Badge,
-  Box,
-  Button,
-  Container,
-  createTheme,
-  CssBaseline,
-  Divider,
-  Drawer,
-  IconButton,
-  InputBase,
-  List,
-  ListItem,
-  ListItemText,
-  Menu,
-  MenuItem,
-  Switch,
-  ThemeProvider,
-  Toolbar,
-  Typography,
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import CancelIcon from '@material-ui/icons/Cancel';
-import SearchIcon from '@material-ui/icons/Search';
-import useStyles from '../utils/classes';
-import { Store } from '../utils/store';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import React, { useContext, useEffect, useState } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+import CancelIcon from '@mui/icons-material/Cancel';
+import SearchIcon from '@mui/icons-material/Search';
+import classes from '../utils/classes';
+import { getError } from '../utils/error';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
-import { getError } from '../utils/error';
+import { useRouter } from 'next/router';
+import NextLink from 'next/link';
+
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Link,
+  Switch,
+  Badge,
+  Button,
+  Menu,
+  MenuItem,
+  Box,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  Divider,
+  ListItemText,
+  InputBase,
+} from '@mui/material';
+// import {
+//   AppBar,
+//   Badge,
+//   Box,
+//   Button,
+//   Container,
+//   createTheme,
+//   CssBaseline,
+//   Divider,
+//   Drawer,
+//   IconButton,
+//   InputBase,
+//   List,
+//   ListItem,
+//   ListItemText,
+//   Menu,
+//   MenuItem,
+//   Switch,
+//   ThemeProvider,
+//   Toolbar,
+//   Typography,
+// } from '@material-ui/core';
+// import MenuIcon from '@material-ui/icons/Menu';
+// import CancelIcon from '@material-ui/icons/Cancel';
+// import SearchIcon from '@material-ui/icons/Search';
+
+import { Store } from '../utils/store';
+
+// import dynamic from 'next/dynamic';
 
 function Layout({ title, description, children }) {
-  const router = useRouter();
-  const [cartItemsCount, setCartItemsCount] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // const [cartItemsCount, setCartItemsCount] = useState(false);
+  // const [isDarkMode, setIsDarkMode] = useState(false);
+
   const { state, dispatch } = useContext(Store);
   const { darkMode, cart, userInfo } = state;
 
@@ -50,11 +79,19 @@ function Layout({ title, description, children }) {
   }, [cart]);
 
   //fixin React Hydration Error
-  useEffect(() => {
-    darkMode ? setIsDarkMode(true) : setIsDarkMode(false);
-  }, [darkMode]);
+  // useEffect(() => {
+  //   darkMode ? setIsDarkMode(true) : setIsDarkMode(false);
+  // }, [darkMode]);
 
   const theme = createTheme({
+    components: {
+      MuiLink: {
+        defaultProps: {
+          underline: 'hover',
+        },
+      },
+    },
+
     typography: {
       h1: {
         fontSize: '1.6reem',
@@ -66,12 +103,13 @@ function Layout({ title, description, children }) {
         fontWeight: 400,
         margin: '1rem 0',
       },
-      body1: {
-        fontWeight: 'normal',
-      },
+      //   body1: {
+      //     fontWeight: 'normal',
+      //   },
     },
     palette: {
-      type: isDarkMode ? 'dark' : 'light',
+      // type: isDarkMode ? 'dark' : 'light',
+      mode: darkMode ? 'dark' : 'light',
       primary: {
         main: '#f0c000',
       },
@@ -80,7 +118,9 @@ function Layout({ title, description, children }) {
       },
     },
   });
-  const classes = useStyles();
+  // const classes = useStyles();
+
+  const router = useRouter();
 
   const [sidbarVisible, setSidbarVisible] = useState(false);
 
@@ -143,27 +183,33 @@ function Layout({ title, description, children }) {
     Cookies.remove('paymentMethod');
     router.push('/');
   };
+  const isDesktop = useMediaQuery('(min-width:600px)');
   return (
-    <div>
+    <>
       <Head>
         <title>{title ? `${title} - Next Amazona` : `Next Amazona`}</title>
         {description && <meta name="description" content={description}></meta>}
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AppBar position="static" className={classes.navbar}>
-          <Toolbar className={classes.toolbar}>
+        {/* <AppBar position="static" className={classes.navbar}>
+          <Toolbar className={classes.toolbar}> */}
+        <AppBar position="static" sx={classes.appbar}>
+          <Toolbar sx={classes.toolbar}>
             <Box display="flex" alignItems="center">
               <IconButton
                 edge="start"
                 aria-label="open drawer"
                 onClick={sidebarOpenHandler}
-                className={classes.menuButton}
+                // className={classes.menuButton}
+                sx={classes.menuButton}
               >
-                <MenuIcon className={classes.navbarButton} />
+                {/* <MenuIcon className={classes.navbarButton} /> */}
+                <MenuIcon sx={classes.navbarButton} />
               </IconButton>
               <NextLink href="/" passHref>
-                <Typography className={classes.brand}>amazona</Typography>
+                {/* <Typography className={classes.brand}>amazona</Typography> */}
+                <Typography sx={classes.brand}>amazona</Typography>
               </NextLink>
             </Box>
             <Drawer
@@ -202,7 +248,7 @@ function Layout({ title, description, children }) {
               </List>
             </Drawer>
 
-            <div className={classes.searchSection}>
+            {/* <div className={classes.searchSection}>
               <form onSubmit={submitHandler} className={classes.searchForm}>
                 <InputBase
                   name="query"
@@ -212,10 +258,27 @@ function Layout({ title, description, children }) {
                 />
                 <IconButton type="submit" className={classes.iconButton}>
                   <SearchIcon />
-                </IconButton>
+                </IconButton> */}
+            <Box sx={isDesktop ? classes.visible : classes.hidden}>
+              <form onSubmit={submitHandler}>
+                <Box sx={classes.searchForm}>
+                  <InputBase
+                    name="query"
+                    sx={classes.searchInput}
+                    placeholder="Search products"
+                    onChange={queryChangeHandler}
+                  />
+                  <IconButton
+                    type="submit"
+                    sx={classes.searchButton}
+                    aria-label="search"
+                  >
+                    <SearchIcon />
+                  </IconButton>
+                </Box>
               </form>
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Switch
                 checked={isDarkMode}
                 onChange={darkModeChangeHandler}
@@ -248,7 +311,8 @@ function Layout({ title, description, children }) {
                     aria-controls="simple-menu"
                     aria-haspopup="true"
                     onClick={loginClickHandler}
-                    className={classes.navbarButton}
+                    // className={classes.navbarButton}
+                    sx={classes.navbarButton}
                   >
                     {userInfo.name}
                   </Button>
@@ -288,15 +352,20 @@ function Layout({ title, description, children }) {
                   <Typography component="span"> Login</Typography>
                 </NextLink>
               )}
-            </div>
+            </Box>
           </Toolbar>
         </AppBar>
         <Container className={classes.main}>{children}</Container>
-        <footer className={classes.footer}>
+        <Container component="main" sx={classes.main}>
+          {children}
+        </Container>
+        {/* <footer className={classes.footer}> */}
+        <Box component="footer" sx={classes.footer}>
           <Typography>All rights reserved. Next Amazona</Typography>
-        </footer>
+          {/* </footer> */}
+        </Box>
       </ThemeProvider>
-    </div>
+    </>
   );
 }
 
