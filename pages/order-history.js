@@ -14,14 +14,16 @@ import {
   TableContainer,
   Typography,
   Button,
-} from '@material-ui/core';
+  ListItemButton,
+} from '@mui/material';
 import { getError } from '../utils/error';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useReducer } from 'react';
 import Layout from '../components/Layout';
 import { Store } from '../utils/store';
-import useStyles from '../utils/styles';
+import classes from '../utils/classes';
+// import useStyles from '../utils/styles';
 import NextLink from 'next/link';
 
 function reducer(state, action) {
@@ -40,7 +42,7 @@ function reducer(state, action) {
 function OrderHistory() {
   const { state } = useContext(Store);
   const router = useRouter();
-  const classes = useStyles();
+  // const classes = useStyles();
   const { userInfo } = state;
 
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
@@ -71,23 +73,23 @@ function OrderHistory() {
     <Layout title={'Order History'}>
       <Grid container spacing={1}>
         <Grid item md={3} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <NextLink href="/profile" passHref>
-                <ListItem button>
+                <ListItemButton>
                   <ListItemText primary="User Prifile"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
               <NextLink href="/order-history" passHref>
-                <ListItem selected button>
+                <ListItemButton selected>
                   <ListItemText primary="Order History"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
             </List>
           </Card>
         </Grid>
         <Grid item md={9} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <ListItem>
                 <Typography component="h1" variant="h1">
@@ -98,7 +100,7 @@ function OrderHistory() {
                 {loading ? (
                   <CircularProgress />
                 ) : error ? (
-                  <Typography className={classes.error}>{error}</Typography>
+                  <Typography sx={classes.error}>{error}</Typography>
                 ) : (
                   <TableContainer>
                     <Table>

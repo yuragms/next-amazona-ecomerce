@@ -1,4 +1,4 @@
-import { Card, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -9,11 +9,14 @@ import db from '../utils/db';
 import { useContext } from 'react';
 import { Store } from '../utils/store';
 import ProductItem from '../components/ProductItem';
-import Carousel from 'react-material-ui-carousel';
-import useStyles from '../utils/styles';
+// import Carousel from 'react-material-ui-carousel';
+// import useStyles from '../utils/styles';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import classes from '../utils/classes';
 
 export default function Home(props) {
-  const classes = useStyles();
+  // const classes = useStyles();
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const { topRatedProducts, featuredProducts } = props;
@@ -35,22 +38,25 @@ export default function Home(props) {
   };
   return (
     <Layout>
-      <Carousel className={classes.mt1} animation="slide">
+      {/* <Carousel className={classes.mt1} animation="slide"> */}
+      <Carousel>
         {featuredProducts.map((product) => (
           <NextLink
             key={product._id}
             href={`/product/${product.slug}`}
             passHref
+            sx={classes.flex}
           >
-            <img
+            {/* <img
               src={product.featuredImage}
               alt={product.name}
               className={classes.featuredImage}
-            ></img>
+            ></img> */}
+            <img src={product.featuredImage} alt={product.name}></img>
           </NextLink>
         ))}
       </Carousel>
-      <Typography variant="h2">Popular Products</Typography>
+      <Typography variant="h2">Popular Products 1</Typography>
       <Grid container spacing={3}>
         {topRatedProducts.map((product) => (
           <Grid item md={4} key={product.name}>

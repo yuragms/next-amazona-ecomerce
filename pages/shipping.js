@@ -1,18 +1,13 @@
-import {
-  Button,
-  List,
-  ListItem,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Button, List, ListItem, TextField, Typography } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
 import Layout from '../components/Layout';
-import useStyles from '../utils/classes';
+// import useStyles from '../utils/classes';
 import { Store } from '../utils/store';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { Controller, useForm } from 'react-hook-form';
 import CheckoutWizard from '../components/CheckoutWizard';
+import Form from '../components/Form';
 
 export default function Shipping() {
   const {
@@ -40,7 +35,7 @@ export default function Shipping() {
     setValue('country', shippingAddress.country);
   }, []);
 
-  const classes = useStyles();
+  // const classes = useStyles();
   const submitHandler = ({ fullName, address, city, postalCode, country }) => {
     dispatch({
       type: 'SAVE_SHIPPING_ADDRESS',
@@ -80,7 +75,7 @@ export default function Shipping() {
   return (
     <Layout title="Shipping Address">
       <CheckoutWizard activeStep={1} />
-      <form onSubmit={handleSubmit(submitHandler)} className={classes.form}>
+      <Form onSubmit={handleSubmit(submitHandler)}>
         <Typography component="h1" variant="h1">
           Shipping Address
         </Typography>
@@ -244,7 +239,7 @@ export default function Shipping() {
             </Button>
           </ListItem>
         </List>
-      </form>
+      </Form>
     </Layout>
   );
 }

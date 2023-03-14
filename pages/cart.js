@@ -14,15 +14,16 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@material-ui/core";
-import React, { useContext, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import Layout from "../components/Layout";
-import { Store } from "../utils/store";
-import NextLink from "next/link";
-import Image from "next/image";
-import axios from "axios";
-import { useRouter } from "next/router";
+  Box,
+} from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import Layout from '../components/Layout';
+import { Store } from '../utils/store';
+import NextLink from 'next/link';
+import Image from 'next/image';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 function CartScreen() {
   const router = useRouter();
@@ -38,20 +39,20 @@ function CartScreen() {
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
-      window.alert("Sorry. Product is out of stock");
+      window.alert('Sorry. Product is out of stock');
       return;
     }
     dispatch({
-      type: "CART_ADD_ITEM",
+      type: 'CART_ADD_ITEM',
       payload: { ...item, quantity },
     });
   };
   const removeItemHandler = (item) => {
-    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
+    dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
 
   const checkoutHandler = () => {
-    router.push("./shipping");
+    router.push('./shipping');
   };
   return (
     <Layout title="Shopping Cart">
@@ -59,12 +60,12 @@ function CartScreen() {
         Shopping Cart
       </Typography>
       {cartItems.length === 0 ? (
-        <div>
-          Cart is empty.{" "}
+        <Box>
+          Cart is empty.{' '}
           <NextLink href="/" passHref>
             Go shopping
           </NextLink>
-        </div>
+        </Box>
       ) : (
         <Grid container spacing={1}>
           <Grid item md={9} xs={12}>
@@ -133,7 +134,7 @@ function CartScreen() {
                 <ListItem>
                   <Typography variant="h2">
                     Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    {""}items : ${""}$
+                    {''}items : ${''}$
                     {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)})
                   </Typography>
                 </ListItem>

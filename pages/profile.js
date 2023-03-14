@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   Card,
   Grid,
@@ -8,18 +8,21 @@ import {
   Typography,
   Button,
   TextField,
-} from "@material-ui/core";
-import { getError } from "../utils/error";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
-import Layout from "../components/Layout";
-import { Store } from "../utils/store";
-import useStyles from "../utils/styles";
-import NextLink from "next/link";
-import { Controller, useForm } from "react-hook-form";
-import { useSnackbar } from "notistack";
-import Cookies from "js-cookie";
+  ListItemButton,
+} from '@mui/material';
+import { getError } from '../utils/error';
+import Form from '../components/Form';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import React, { useContext, useEffect } from 'react';
+import Layout from '../components/Layout';
+import { Store } from '../utils/store';
+// import useStyles from '../utils/styles';
+import classes from '../utils/classes';
+import NextLink from 'next/link';
+import { Controller, useForm } from 'react-hook-form';
+import { useSnackbar } from 'notistack';
+import Cookies from 'js-cookie';
 
 function Profile() {
   const { state, dispatch } = useContext(Store);
@@ -31,26 +34,26 @@ function Profile() {
   } = useForm();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
-  const classes = useStyles();
+  // const classes = useStyles();
   const { userInfo } = state;
 
   useEffect(() => {
     if (!userInfo) {
-      return router.push("/login");
+      return router.push('/login');
     }
-    setValue("name", userInfo.name);
-    setValue("email", userInfo.email);
+    setValue('name', userInfo.name);
+    setValue('email', userInfo.email);
   }, []);
 
   const submitHandler = async ({ name, email, password, confirmPassword }) => {
     closeSnackbar();
     if (password !== confirmPassword) {
-      enqueueSnackbar("passwords don't match", { variant: "error" });
+      enqueueSnackbar("passwords don't match", { variant: 'error' });
       return;
     }
     try {
       const { data } = await axios.put(
-        "/api/users/profile",
+        '/api/users/profile',
         {
           name,
           email,
@@ -59,36 +62,36 @@ function Profile() {
         { headers: { authorization: `Bearer ${userInfo.token}` } }
       );
       console.log(data);
-      dispatch({ type: "USER_LOGIN", payload: data });
-      Cookies.set("userInfo", JSON.stringify(data));
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      Cookies.set('userInfo', JSON.stringify(data));
 
-      enqueueSnackbar("Profile updated successfully", { variant: "success" });
+      enqueueSnackbar('Profile updated successfully', { variant: 'success' });
     } catch (err) {
-      enqueueSnackbar(getError(err), { variant: "error" });
+      enqueueSnackbar(getError(err), { variant: 'error' });
     }
   };
 
   return (
-    <Layout title={"Profile"}>
+    <Layout title={'Profile'}>
       <Grid container spacing={1}>
         <Grid item md={3} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <NextLink href="/profile" passHref>
-                <ListItem selected button>
+                <ListItemButton selected>
                   <ListItemText primary="User Prifile"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
               <NextLink href="/order-history" passHref>
-                <ListItem button>
+                <ListItemButton>
                   <ListItemText primary="Order History"></ListItemText>
-                </ListItem>
+                </ListItemButton>
               </NextLink>
             </List>
           </Card>
         </Grid>
         <Grid item md={9} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <ListItem>
                 <Typography component="h1" variant="h1">
@@ -96,10 +99,7 @@ function Profile() {
                 </Typography>
               </ListItem>
               <ListItem>
-                <form
-                  onSubmit={handleSubmit(submitHandler)}
-                  className={classes.form}
-                >
+                <Form onSubmit={handleSubmit(submitHandler)}>
                   <List>
                     <ListItem>
                       <Controller
@@ -116,14 +116,14 @@ function Profile() {
                             fullWidth
                             id="name"
                             label="Name"
-                            inputProps={{ type: "name" }}
+                            inputProps={{ type: 'name' }}
                             error={Boolean(errors.name)}
                             helperText={
                               errors.name
-                                ? errors.name.type === "minLength"
-                                  ? "Name length is more than 1"
-                                  : "Name is required"
-                                : ""
+                                ? errors.name.type === 'minLength'
+                                  ? 'Name length is more than 1'
+                                  : 'Name is required'
+                                : ''
                             }
                             {...field}
                           ></TextField>
@@ -145,14 +145,14 @@ function Profile() {
                             fullWidth
                             id="email"
                             label="Email"
-                            inputProps={{ type: "email" }}
+                            inputProps={{ type: 'email' }}
                             error={Boolean(errors.email)}
                             helperText={
                               errors.email
-                                ? errors.email.type === "pattern"
-                                  ? "Email is not valid"
-                                  : "Email is required"
-                                : ""
+                                ? errors.email.type === 'pattern'
+                                  ? 'Email is not valid'
+                                  : 'Email is required'
+                                : ''
                             }
                             // onChange={(e) => setEmail(e.target.value)}
                             {...field}
@@ -167,9 +167,9 @@ function Profile() {
                         defaultValue=""
                         rules={{
                           validate: (value) =>
-                            value === "" ||
+                            value === '' ||
                             value.length > 5 ||
-                            "Password length is more than 5",
+                            'Password length is more than 5',
                         }}
                         render={({ field }) => (
                           <TextField
@@ -177,12 +177,12 @@ function Profile() {
                             fullWidth
                             id="password"
                             label="Password"
-                            inputProps={{ type: "password" }}
+                            inputProps={{ type: 'password' }}
                             error={Boolean(errors.password)}
                             helperText={
                               errors.password
-                                ? "Password length is more than 5"
-                                : ""
+                                ? 'Password length is more than 5'
+                                : ''
                             }
                             // onChange={(e) => setEmail(e.target.value)}
                             {...field}
@@ -197,9 +197,9 @@ function Profile() {
                         defaultValue=""
                         rules={{
                           validate: (value) =>
-                            value === "" ||
+                            value === '' ||
                             value.length > 5 ||
-                            "Confirm Password length is more than 5",
+                            'Confirm Password length is more than 5',
                         }}
                         render={({ field }) => (
                           <TextField
@@ -207,12 +207,12 @@ function Profile() {
                             fullWidth
                             id="confirmPassword"
                             label="Confirm Password"
-                            inputProps={{ type: "password" }}
+                            inputProps={{ type: 'password' }}
                             error={Boolean(errors.confirmPassword)}
                             helperText={
                               errors.password
-                                ? "Confirm Password length is more than 5"
-                                : ""
+                                ? 'Confirm Password length is more than 5'
+                                : ''
                             }
                             // onChange={(e) => setEmail(e.target.value)}
                             {...field}
@@ -231,7 +231,7 @@ function Profile() {
                       </Button>
                     </ListItem>
                   </List>
-                </form>
+                </Form>
               </ListItem>
             </List>
           </Card>

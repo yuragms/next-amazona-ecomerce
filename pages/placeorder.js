@@ -12,23 +12,24 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@material-ui/core";
-import React, { useContext, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import Layout from "../components/Layout";
-import { Store } from "../utils/store";
-import NextLink from "next/link";
-import Image from "next/image";
-import axios from "axios";
-import { useRouter } from "next/router";
-import useStyles from "../utils/styles";
-import CheckoutWizard from "../components/CheckoutWizard";
-import { useSnackbar } from "notistack";
-import Cookies from "js-cookie";
-import { getError } from "../utils/error";
+} from '@mui/material';
+import classes from '../utils/classes';
+import React, { useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import Layout from '../components/Layout';
+import { Store } from '../utils/store';
+import NextLink from 'next/link';
+import Image from 'next/image';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+// import useStyles from '../utils/styles';
+import CheckoutWizard from '../components/CheckoutWizard';
+import { useSnackbar } from 'notistack';
+import Cookies from 'js-cookie';
+import { getError } from '../utils/error';
 
 function PlaceOrder() {
-  const classes = useStyles();
+  // const classes = useStyles();
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const {
@@ -49,10 +50,10 @@ function PlaceOrder() {
 
   useEffect(() => {
     if (!paymentMethod) {
-      router.push("/payment");
+      router.push('/payment');
     }
     if (cartItems.length === 0) {
-      router.push("/cart");
+      router.push('/cart');
     }
   }, []);
 
@@ -61,7 +62,7 @@ function PlaceOrder() {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        "/api/orders",
+        '/api/orders',
         {
           orderItems: cartItems,
           shippingAddress,
@@ -77,13 +78,13 @@ function PlaceOrder() {
           },
         }
       );
-      dispatch({ type: "CART_CLEAR" });
-      Cookies.remove("cartItems");
+      dispatch({ type: 'CART_CLEAR' });
+      Cookies.remove('cartItems');
       setLoading(false);
       router.push(`/order/${data._id}`);
     } catch (err) {
       setLoading(false);
-      enqueueSnackbar(getError(err), { variant: "error" });
+      enqueueSnackbar(getError(err), { variant: 'error' });
     }
   };
   return (
@@ -94,7 +95,7 @@ function PlaceOrder() {
       </Typography>
       <Grid container spacing={1}>
         <Grid item md={9} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <ListItem>
                 <Typography component="h2" variant="h2">
@@ -102,13 +103,13 @@ function PlaceOrder() {
                 </Typography>
               </ListItem>
               <ListItem>
-                {shippingAddress.fullName}, {shippingAddress.address},{" "}
-                {shippingAddress.city}, {shippingAddress.postalCode},{" "}
+                {shippingAddress.fullName}, {shippingAddress.address},{' '}
+                {shippingAddress.city}, {shippingAddress.postalCode},{' '}
                 {shippingAddress.country}
               </ListItem>
             </List>
           </Card>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <ListItem>
                 <Typography component="h2" variant="h2">
@@ -118,7 +119,7 @@ function PlaceOrder() {
               <ListItem>{paymentMethod}</ListItem>
             </List>
           </Card>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <ListItem>
                 <Typography component="h2" variant="h2">
@@ -126,7 +127,7 @@ function PlaceOrder() {
                 </Typography>
               </ListItem>
               <ListItem>
-                {" "}
+                {' '}
                 <TableContainer>
                   <Table>
                     <TableHead>
@@ -171,7 +172,7 @@ function PlaceOrder() {
           </Card>
         </Grid>
         <Grid item md={3} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
               <ListItem>
                 <Typography variant="h2">Order Summary</Typography>

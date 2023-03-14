@@ -1,21 +1,16 @@
-import {
-  Button,
-  List,
-  ListItem,
-  TextField,
-  Typography,
-} from "@material-ui/core";
-import React, { useContext, useEffect, useState } from "react";
-import Layout from "../components/Layout";
-import useStyles from "../utils/styles";
-import NextLink from "next/link";
-import axios from "axios";
-import { Store } from "../utils/store";
-import { useRouter } from "next/router";
-import Cookies from "js-cookie";
-import { Controller, useForm } from "react-hook-form";
-import { useSnackbar } from "notistack";
-import { getError } from "../utils/error";
+import { Button, List, ListItem, TextField, Typography } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import Layout from '../components/Layout';
+// import useStyles from "../utils/styles";
+import NextLink from 'next/link';
+import axios from 'axios';
+import { Store } from '../utils/store';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+import { Controller, useForm } from 'react-hook-form';
+import { useSnackbar } from 'notistack';
+import { getError } from '../utils/error';
+import Form from '../components/Form';
 
 export default function Login() {
   const {
@@ -30,7 +25,7 @@ export default function Login() {
   const { userInfo } = state;
   useEffect(() => {
     if (userInfo) {
-      router.push("/");
+      router.push('/');
     }
   }, []);
 
@@ -41,21 +36,21 @@ export default function Login() {
     // e.preventDefault();
     closeSnackbar();
     try {
-      const { data } = await axios.post("/api/users/login", {
+      const { data } = await axios.post('/api/users/login', {
         email,
         password,
       });
       console.log(data);
-      dispatch({ type: "USER_LOGIN", payload: data });
-      Cookies.set("userInfo", JSON.stringify(data));
-      router.push(redirect || "/");
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      Cookies.set('userInfo', JSON.stringify(data));
+      router.push(redirect || '/');
     } catch (err) {
-      enqueueSnackbar(getError(err), { variant: "error" });
+      enqueueSnackbar(getError(err), { variant: 'error' });
     }
   };
   return (
     <Layout>
-      <form onSubmit={handleSubmit(submitHandler)} className={classes.form}>
+      <Form onSubmit={handleSubmit(submitHandler)}>
         <Typography component="h1" variant="h1">
           Login
         </Typography>
@@ -75,14 +70,14 @@ export default function Login() {
                   fullWidth
                   id="email"
                   label="Email"
-                  inputProps={{ type: "email" }}
+                  inputProps={{ type: 'email' }}
                   error={Boolean(errors.email)}
                   helperText={
                     errors.email
-                      ? errors.email.type === "pattern"
-                        ? "Email is not valid"
-                        : "Email is required"
-                      : ""
+                      ? errors.email.type === 'pattern'
+                        ? 'Email is not valid'
+                        : 'Email is required'
+                      : ''
                   }
                   // onChange={(e) => setEmail(e.target.value)}
                   {...field}
@@ -105,14 +100,14 @@ export default function Login() {
                   fullWidth
                   id="password"
                   label="Password"
-                  inputProps={{ type: "password" }}
+                  inputProps={{ type: 'password' }}
                   error={Boolean(errors.password)}
                   helperText={
                     errors.password
-                      ? errors.password.type === "minLength"
-                        ? "Password length is more than 5"
-                        : "Password is required"
-                      : ""
+                      ? errors.password.type === 'minLength'
+                        ? 'Password length is more than 5'
+                        : 'Password is required'
+                      : ''
                   }
                   // onChange={(e) => setEmail(e.target.value)}
                   {...field}
@@ -127,12 +122,12 @@ export default function Login() {
           </ListItem>
           <ListItem>
             Don't have an account? &nbsp;
-            <NextLink href={`/register?redirect=${redirect || "/"}`} passHref>
+            <NextLink href={`/register?redirect=${redirect || '/'}`} passHref>
               Register
             </NextLink>
           </ListItem>
         </List>
-      </form>
+      </Form>
     </Layout>
   );
 }

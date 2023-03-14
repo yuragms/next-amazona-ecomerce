@@ -1,21 +1,16 @@
-import {
-  Button,
-  List,
-  ListItem,
-  TextField,
-  Typography,
-} from "@material-ui/core";
-import React, { useContext, useEffect } from "react";
-import Layout from "../components/Layout";
-import useStyles from "../utils/styles";
-import NextLink from "next/link";
-import axios from "axios";
-import { Store } from "../utils/store";
-import { useRouter } from "next/router";
-import Cookies from "js-cookie";
-import { Controller, useForm } from "react-hook-form";
-import { useSnackbar } from "notistack";
-import { getError } from "../utils/error";
+import { Button, List, ListItem, TextField, Typography } from '@mui/material';
+import React, { useContext, useEffect } from 'react';
+import Layout from '../components/Layout';
+// import useStyles from "../utils/styles";
+import NextLink from 'next/link';
+import axios from 'axios';
+import { Store } from '../utils/store';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+import { Controller, useForm } from 'react-hook-form';
+import { useSnackbar } from 'notistack';
+import { getError } from '../utils/error';
+import Form from '../components/Form';
 
 export default function Register() {
   const {
@@ -30,34 +25,34 @@ export default function Register() {
   const { userInfo } = state;
   useEffect(() => {
     if (userInfo) {
-      router.push("/");
+      router.push('/');
     }
   }, []);
 
-  const classes = useStyles();
+  // const classes = useStyles();
   const submitHandler = async ({ name, email, password, confirmPassword }) => {
     closeSnackbar();
     if (password !== confirmPassword) {
-      enqueueSnackbar("passwords don't match", { variant: "error" });
+      enqueueSnackbar("passwords don't match", { variant: 'error' });
       return;
     }
     try {
-      const { data } = await axios.post("/api/users/register", {
+      const { data } = await axios.post('/api/users/register', {
         name,
         email,
         password,
       });
       console.log(data);
-      dispatch({ type: "USER_LOGIN", payload: data });
-      Cookies.set("userInfo", JSON.stringify(data));
-      router.push(redirect || "/");
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      Cookies.set('userInfo', JSON.stringify(data));
+      router.push(redirect || '/');
     } catch (err) {
-      enqueueSnackbar(getError(err), { variant: "error" });
+      enqueueSnackbar(getError(err), { variant: 'error' });
     }
   };
   return (
     <Layout title="Register">
-      <form onSubmit={handleSubmit(submitHandler)} className={classes.form}>
+      <Form onSubmit={handleSubmit(submitHandler)}>
         <Typography component="h1" variant="h1">
           Register
         </Typography>
@@ -77,14 +72,14 @@ export default function Register() {
                   fullWidth
                   id="name"
                   label="Name"
-                  inputProps={{ type: "name" }}
+                  inputProps={{ type: 'name' }}
                   error={Boolean(errors.name)}
                   helperText={
                     errors.name
-                      ? errors.name.type === "minLength"
-                        ? "Name length is more than 1"
-                        : "Name is required"
-                      : ""
+                      ? errors.name.type === 'minLength'
+                        ? 'Name length is more than 1'
+                        : 'Name is required'
+                      : ''
                   }
                   {...field}
                 ></TextField>
@@ -106,14 +101,14 @@ export default function Register() {
                   fullWidth
                   id="email"
                   label="Email"
-                  inputProps={{ type: "email" }}
+                  inputProps={{ type: 'email' }}
                   error={Boolean(errors.email)}
                   helperText={
                     errors.email
-                      ? errors.email.type === "pattern"
-                        ? "Email is not valid"
-                        : "Email is required"
-                      : ""
+                      ? errors.email.type === 'pattern'
+                        ? 'Email is not valid'
+                        : 'Email is required'
+                      : ''
                   }
                   // onChange={(e) => setEmail(e.target.value)}
                   {...field}
@@ -136,14 +131,14 @@ export default function Register() {
                   fullWidth
                   id="password"
                   label="Password"
-                  inputProps={{ type: "password" }}
+                  inputProps={{ type: 'password' }}
                   error={Boolean(errors.password)}
                   helperText={
                     errors.password
-                      ? errors.password.type === "minLength"
-                        ? "Password length is more than 5"
-                        : "Password is required"
-                      : ""
+                      ? errors.password.type === 'minLength'
+                        ? 'Password length is more than 5'
+                        : 'Password is required'
+                      : ''
                   }
                   // onChange={(e) => setEmail(e.target.value)}
                   {...field}
@@ -166,14 +161,14 @@ export default function Register() {
                   fullWidth
                   id="confirmPassword"
                   label="Confirm Password"
-                  inputProps={{ type: "password" }}
+                  inputProps={{ type: 'password' }}
                   error={Boolean(errors.confirmPassword)}
                   helperText={
                     errors.confirmPassword
-                      ? errors.confirmPassword.type === "minLength"
-                        ? "Confirm Password length is more than 5"
-                        : "Confirm Password is required"
-                      : ""
+                      ? errors.confirmPassword.type === 'minLength'
+                        ? 'Confirm Password length is more than 5'
+                        : 'Confirm Password is required'
+                      : ''
                   }
                   // onChange={(e) => setEmail(e.target.value)}
                   {...field}
@@ -188,12 +183,12 @@ export default function Register() {
           </ListItem>
           <ListItem>
             Already have an account? &nbsp;
-            <NextLink href={`/login?redirect=${redirect || "/"}`} passHref>
+            <NextLink href={`/login?redirect=${redirect || '/'}`} passHref>
               Login
             </NextLink>
           </ListItem>
         </List>
-      </form>
+      </Form>
     </Layout>
   );
 }
