@@ -7,7 +7,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import { Rating } from '@mui/material/Rating';
+import Rating from '@mui/material/Rating';
 import NextLink from 'next/link';
 import React from 'react';
 

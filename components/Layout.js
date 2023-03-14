@@ -64,8 +64,8 @@ import { Store } from '../utils/store';
 
 // import dynamic from 'next/dynamic';
 
-function Layout({ title, description, children }) {
-  // const [cartItemsCount, setCartItemsCount] = useState(false);
+export default function Layout({ title, description, children }) {
+  const [cartItemsCount, setCartItemsCount] = useState(false);
   // const [isDarkMode, setIsDarkMode] = useState(false);
 
   const { state, dispatch } = useContext(Store);
@@ -280,7 +280,7 @@ function Layout({ title, description, children }) {
             </Box>
             <Box>
               <Switch
-                checked={isDarkMode}
+                checked={darkMode}
                 onChange={darkModeChangeHandler}
               ></Switch>
               <NextLink href="/cart" passHref>
@@ -369,4 +369,4 @@ function Layout({ title, description, children }) {
   );
 }
 
-export default dynamic(() => Promise.resolve(Layout), { ssr: false });
+// export default dynamic(() => Promise.resolve(Layout), { ssr: false });
