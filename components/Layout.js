@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ListItemButton, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useContext, useEffect, useState } from 'react';
@@ -36,20 +36,20 @@ import {
 
 import { Store } from '../utils/store';
 
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 
-export default function Layout({ title, description, children }) {
-  const [cartItemsCount, setCartItemsCount] = useState(false);
+function Layout({ title, description, children }) {
+  // const [cartItemsCount, setCartItemsCount] = useState(false);
 
   const { state, dispatch } = useContext(Store);
   const { darkMode, cart, userInfo } = state;
 
   //fixin React Hydration Error
-  useEffect(() => {
-    cart.cartItems.length > 0
-      ? setCartItemsCount(cart.cartItems.length)
-      : setCartItemsCount(false);
-  }, [cart]);
+  // useEffect(() => {
+  //   cart.cartItems.length > 0
+  //     ? setCartItemsCount(cart.cartItems.length)
+  //     : setCartItemsCount(false);
+  // }, [cart]);
 
   const theme = createTheme({
     components: {
@@ -184,7 +184,7 @@ export default function Layout({ title, description, children }) {
                   >
                     <Typography>Shopping by category</Typography>
                     <IconButton
-                      aarial-label="close"
+                      aria-label="close"
                       onClick={sidebarCloseHandler}
                     >
                       <CancelIcon />
@@ -198,9 +198,9 @@ export default function Layout({ title, description, children }) {
                     href={`/search?category=${category}`}
                     passHref
                   >
-                    <ListItem button onClick={sidebarCloseHandler}>
+                    <ListItemButton onClick={sidebarCloseHandler}>
                       <ListItemText primary={category}></ListItemText>
-                    </ListItem>
+                    </ListItemButton>
                   </NextLink>
                 ))}
               </List>
@@ -232,10 +232,10 @@ export default function Layout({ title, description, children }) {
               ></Switch>
               <NextLink href="/cart" passHref>
                 <Typography component="span">
-                  {cartItemsCount ? (
+                  {cart.cartItems.length > 0 ? (
                     <Badge
                       color="secondary"
-                      badgeContent={cartItemsCount}
+                      badgeContent={cart.cartItems.length}
                       overlap="rectangular"
                     >
                       Cart
@@ -307,4 +307,4 @@ export default function Layout({ title, description, children }) {
   );
 }
 
-// export default dynamic(() => Promise.resolve(Layout), { ssr: false });
+export default dynamic(() => Promise.resolve(Layout), { ssr: false });
