@@ -1,8 +1,8 @@
-import nc from "next-connect";
-import { isAuth } from "../../../../utils/auth";
-import Order from "../../../../models/Order";
-import onError from "../../../../utils/error";
-import db from "../../../../utils/db";
+import nc from 'next-connect';
+import { isAuth } from '../../../../utils/auth';
+import Order from '../../../../models/Order';
+import { onError } from '../../../../utils/error';
+import db from '../../../../utils/db';
 
 const handler = nc({
   onError,
@@ -21,10 +21,10 @@ handler.put(async (req, res) => {
     };
     const paidOrder = await order.save();
     await db.disconnect();
-    res.send({ message: "order paid", order: paidOrder });
+    res.send({ message: 'order paid', order: paidOrder });
   } else {
     await db.disconnect();
-    res.status(404).send({ message: "order not found" });
+    res.status(404).send({ message: 'order not found' });
   }
 });
 

@@ -22,7 +22,6 @@ import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useReducer } from 'react';
 import Layout from '../../components/Layout';
 import { Store } from '../../utils/store';
-import useStyles from '../../utils/styles';
 import classes from '../../utils/classes';
 import NextLink from 'next/link';
 
